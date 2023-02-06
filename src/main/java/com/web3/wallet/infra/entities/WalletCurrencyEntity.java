@@ -21,22 +21,22 @@ public class WalletCurrencyEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id", nullable = false)
-    private Wallet wallet;
+    private WalletEntity wallet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "currency_id", nullable = false)
-    private Currency currency;
+    private CurrencyEntity currency;
 
     public WalletCurrencyEntity() {
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public WalletCurrencyEntity setWallet(Wallet wallet) {
+    public WalletCurrencyEntity setWallet(WalletEntity wallet) {
         this.wallet = wallet;
         return this;
     }
 
-    public WalletCurrencyEntity setCurrency(Currency currency) {
+    public WalletCurrencyEntity setCurrency(CurrencyEntity currency) {
         this.currency = currency;
         return this;
     }

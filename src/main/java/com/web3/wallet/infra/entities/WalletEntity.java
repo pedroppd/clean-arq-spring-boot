@@ -18,9 +18,9 @@ public class WalletEntity implements Serializable {
     private String name;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity user;
 
     public String getUuid() {
         return uuid;
