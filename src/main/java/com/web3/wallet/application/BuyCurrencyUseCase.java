@@ -8,8 +8,6 @@ import com.web3.wallet.domain.walletcurrency.WalletCurrency;
 import com.web3.wallet.domain.walletcurrency.interfaces.ports.IWalletCurrencyRepositoryPort;
 import com.web3.wallet.domain.walletcurrency.interfaces.ports.usecases.IBuyCurrencyUseCase;
 
-import java.util.Optional;
-
 public class BuyCurrencyUseCase implements IBuyCurrencyUseCase {
 
     private final IWalletCurrencyRepositoryPort walletCurrencyRepositoryPort;
@@ -30,23 +28,24 @@ public class BuyCurrencyUseCase implements IBuyCurrencyUseCase {
      * @Exception When wallet or currency is null then is throwing a exception
      * @return Wallet and Currency saved
      */
-    public WalletCurrency execute(Wallet wallet, Currency currency) throws Exception {
+    public WalletCurrency execute(Wallet wallet, Currency currency) {
         try {
-            Optional<Wallet> optionalWallet = this.walletRepositoryPort.getWalletByUuid(wallet.getUuid()).join();
-            if (optionalWallet.isEmpty()) {
-                //add exception handler
-                throw new Exception("Currency is empty.");
-            }
+            this.walletRepositoryPort.getWalletByUuid(wallet.getUuid()).thenAccept((data) -> {
+                if (data.isEmpty()) {
+                    throw new RuntimeException("");
+                }
+            });
 
-            Optional<Currency> optionalCurrency = this.currencyRepositoryPort.getCurrencyByUuid(currency.getUuid()).join();
-            if (optionalCurrency.isEmpty()) {
-                //add exception handler
-                throw new Exception("Currency is empty.");
-            }
+            this.currencyRepositoryPort.getCurrencyByUuid(currency.getUuid()).thenAccept((data) -> {
+                if (data.isEmpty()) {
+                    throw new RuntimeException("");
+                }
+            });
+
             WalletCurrency walletCurrency = new WalletCurrency().setCurrency(currency).setWallet(wallet);
             return this.walletCurrencyRepositoryPort.save(walletCurrency);
         } catch (Exception ex) {
-            System.out.println("Error to try save Wallet and Currency: " + ex.getMessage());
+            System.out.println(ex.getMessage());
             throw ex;
         }
     }
