@@ -17,7 +17,7 @@ public class WalletRepository implements IWalletRepositoryPort {
     }
 
     @Override
-    public CompletableFuture<Optional<Wallet>> getWalletByUuid(String uuid) {
-        return CompletableFuture.supplyAsync(() -> Optional.ofNullable(this.walletRepository.getWalletByUuid(uuid)));
+    public Optional<Wallet> getWalletByUuid(String uuid) {
+        return Optional.ofNullable(this.walletRepository.getWalletByUuid(uuid));
     }
 }

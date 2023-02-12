@@ -6,5 +6,5 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public interface IWalletRepositoryPort {
-    CompletableFuture<Optional<Wallet>> getWalletByUuid(String uuid);
+    Optional<Wallet> getWalletByUuid(String uuid);
 }

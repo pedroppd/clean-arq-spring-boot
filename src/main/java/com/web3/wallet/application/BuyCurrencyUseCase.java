@@ -30,17 +30,15 @@ public class BuyCurrencyUseCase implements IBuyCurrencyUseCase {
      */
     public WalletCurrency execute(Wallet wallet, Currency currency) {
         try {
-            this.walletRepositoryPort.getWalletByUuid(wallet.getUuid()).thenAccept((data) -> {
-                if (data.isEmpty()) {
-                    throw new RuntimeException("");
-                }
-            });
+            var optionalWallet = this.walletRepositoryPort.getWalletByUuid(wallet.getUuid());
+            if (optionalWallet.isEmpty()) {
+                throw new RuntimeException("Wallet not exists !");
+            }
 
-            this.currencyRepositoryPort.getCurrencyByUuid(currency.getUuid()).thenAccept((data) -> {
-                if (data.isEmpty()) {
-                    throw new RuntimeException("");
-                }
-            });
+            var optionalCurrency = this.currencyRepositoryPort.getCurrencyByUuid(currency.getUuid());
+            if (optionalCurrency.isEmpty()) {
+                throw new RuntimeException("Currency not exists !");
+            }
 
             WalletCurrency walletCurrency = new WalletCurrency().setCurrency(currency).setWallet(wallet);
             return this.walletCurrencyRepositoryPort.save(walletCurrency);

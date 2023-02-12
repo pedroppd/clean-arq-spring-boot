@@ -7,5 +7,5 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ICurrencyRepositoryPort {
 
-    CompletableFuture<Optional<Currency>> getCurrencyByUuid(String uuid);
+    Optional<Currency> getCurrencyByUuid(String uuid);
 }
